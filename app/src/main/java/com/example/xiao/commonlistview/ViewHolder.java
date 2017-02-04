@@ -40,22 +40,34 @@ public class ViewHolder {
         return mConvertView;
     }
 
-    public <T extends View> T getView(int id){
-        if (mViewMap.containsKey(id)){
-            return (T) mViewMap.get(id);
+    /**
+     * 获取控件,mViewMap里有则直接取,没有则通过findViewById拿到并保存到mViewMap
+     * @param viewId 控件id
+     * @param <T>
+     * @return
+     */
+    public <T extends View> T getView(int viewId){
+        if (mViewMap.containsKey(viewId)){
+            return (T) mViewMap.get(viewId);
         }else{
-            View view=mConvertView.findViewById(id);
-            mViewMap.put(id,view);
+            View view=mConvertView.findViewById(viewId);
+            mViewMap.put(viewId,view);
             return (T) view;
         }
     }
 
-    public ViewHolder set(int id,String s){
-        View view=getView(id);
+    /**
+     * 内容适配,一般就用到ImageView和TextView,而且ImageView通常是url,所以就用反射封装一下,返回自身实现链式调用
+     * @param viewId 控件id
+     * @param content 要适配的内容(文字字符串/图片url)
+     * @return
+     */
+    public ViewHolder set(int viewId,String content){
+        View view=getView(viewId);
         if (view instanceof TextView){
-            ((TextView) view).setText(s);
+            ((TextView) view).setText(content);
         }else if (view instanceof ImageView){
-            Picasso.with(mContext).load(s).into((ImageView) view);
+            Picasso.with(mContext).load(content).into((ImageView) view);
         }
         return this;
     }

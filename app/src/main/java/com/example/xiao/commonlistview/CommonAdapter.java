@@ -38,6 +38,13 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
         return position;
     }
 
+    /**
+     * 根据OO思想,第一行和最后一行不存在变化,所以封装起来,中间适配内容的部分通过convertView抽象方法交给调用者去实现
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = ViewHolder.getHolder(mContext, mLayoutId, convertView, parent);
@@ -45,5 +52,10 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
         return holder.getConvertView();
     }
 
+    /**
+     * 真正内容适配的方法
+     * @param holder
+     * @param t
+     */
     public abstract void convertView(ViewHolder holder,T t);
 }
